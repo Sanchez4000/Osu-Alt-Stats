@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using OsuVueAppApi.Models;
+using OsuVueAppApi.Models.Osu;
 
 namespace OsuVueAppApi.OsuApiProviders
 {

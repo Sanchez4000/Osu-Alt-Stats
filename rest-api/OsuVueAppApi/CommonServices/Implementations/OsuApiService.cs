@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using OsuVueAppApi.CommonServices.Interfaces;
 using OsuVueAppApi.Exceptions;
-using OsuVueAppApi.Models;
+using OsuVueAppApi.Models.Osu;
 using OsuVueAppApi.OsuApiProviders;
 using OsuVueAppApi.Utilities;
 

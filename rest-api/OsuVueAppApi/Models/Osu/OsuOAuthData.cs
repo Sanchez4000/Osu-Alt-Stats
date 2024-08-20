@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace OsuVueAppApi.Models
+namespace OsuVueAppApi.Models.Osu
 {
     public class OsuOAuthData
     {
