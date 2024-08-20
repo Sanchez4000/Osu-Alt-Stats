@@ -13,6 +13,10 @@ namespace OsuVueAppApi.CommonServices.Implementations
         private const string CLIENT_SECRET = "zDsmZ4qb0Mjo9CmLOjjm1MIXmg0e2KzXY3l2z4sh";
         private const string GRANT_TYPE = "authorization_code";
 
+        private const string DIRECTORY = "temp";
+        private const string FILE = "auth-backup.txt";
+        private const string FULL_PATH = $"{DIRECTORY}/{FILE}";
+
         private OsuOAuthData? _oAuthData = null;
 
         public UsersProvider Users
@@ -24,6 +28,19 @@ namespace OsuVueAppApi.CommonServices.Implementations
 
                 return new UsersProvider(_oAuthData);
             }
+        }
+
+        public OsuApiService()
+        {
+            if (File.Exists(FULL_PATH))
+            {
+                var json = File.ReadAllText(FULL_PATH);
+                _oAuthData = JsonConvert.DeserializeObject<OsuOAuthData>(json);
+                return;
+            }
+
+            if (!Directory.Exists(DIRECTORY))
+                Directory.CreateDirectory(DIRECTORY);
         }
 
         public async Task Authorize(string authorizationCode)
@@ -42,6 +59,9 @@ namespace OsuVueAppApi.CommonServices.Implementations
             var json = await response.Content.ReadAsStringAsync();
 
             _oAuthData = JsonConvert.DeserializeObject<OsuOAuthData>(json);
+
+            if (_oAuthData != null)
+                await BackupToken(json);
         }
         public async Task<string> GetOAuthToken(string authorizationCode)
         {
@@ -59,6 +79,14 @@ namespace OsuVueAppApi.CommonServices.Implementations
         {
             await Task.Delay(100);
             throw new NotImplementedException();
+        }
+
+        private static async Task BackupToken(string token)
+        {
+            if (!File.Exists(FULL_PATH))
+                File.Create(FULL_PATH).Close();
+                
+            await File.WriteAllTextAsync(FULL_PATH, token);
         }
     }
 }
