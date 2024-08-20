@@ -1,0 +1,28 @@
+#nav-bar {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 30px;
+    background-color: #8e3a90;
+    border-bottom: 1px black solid;
+}
+
+#nav-bar-buttons {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    background-color: blue;
+}
+
+#user-block {
+    width: 200px;
+    height: 100%;
+    background-color: orange;
+}
+
+#content {
+    width: 100%;
+    min-height: 100%;
+    margin: 0;
+}

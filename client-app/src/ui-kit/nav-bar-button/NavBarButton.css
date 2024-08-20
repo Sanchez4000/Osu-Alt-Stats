@@ -1,0 +1,19 @@
+a {
+    display: flex;
+    margin: auto;
+    text-align: center;
+    width: 80px;
+    height: 30px;
+    border-right: 1px solid black;
+    text-decoration: none;
+    background-color: rgb(227, 140, 223);
+}
+
+a:hover {
+    background-color: white;
+}
+
+a span {
+    display: block;
+    margin: auto;
+}

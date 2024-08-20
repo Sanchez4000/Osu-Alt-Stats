@@ -1,0 +1,23 @@
+/client-app/.DS_Store
+node_modules
+/client-app/dist
+
+
+# local env files
+/client-app/.env.local
+/client-app/.env.*.local
+
+# Log files
+/client-app/npm-debug.log*
+/client-app/yarn-debug.log*
+/client-app/yarn-error.log*
+/client-app/pnpm-debug.log*
+
+# Editor directories and files
+/client-app/.idea
+/client-app/.vscode
+/client-app/*.suo
+/client-app/*.ntvs*
+/client-app/*.njsproj
+/client-app/*.sln
+/client-app/*.sw?
