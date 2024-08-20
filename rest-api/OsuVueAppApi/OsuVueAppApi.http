@@ -1,0 +1,6 @@
+@OsuVueAppApi_HostAddress = http://localhost:5098
+
+GET {{OsuVueAppApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
