@@ -10,7 +10,7 @@ namespace OsuVueAppApi.CommonServices.Implementations
     public class OsuApiService : IOsuApiService
     {
         private const int CLIENT_ID = 34162;
-        private const string CLIENT_SECRET = "zDsmZ4qb0Mjo9CmLOjjm1MIXmg0e2KzXY3l2z4sh";
+        private const string CLIENT_SECRET = "zDsmZ4qb0Mjo9CmLOjjm1MIXmg0e2KzXY3l2z4sh"; //Test secret (not actual) TODO load secret from appsettings
         private const string GRANT_TYPE = "authorization_code";
 
         private const string DIRECTORY = "temp";
