@@ -22,7 +22,7 @@ class AuthCallback extends Vue {
           AuthorizationCode: codeParam.Value,
         };
 
-        AxiosDecorator.post("/Authorize/Authorize", requestData)
+        AxiosDecorator.post("/Authorization/Authorize", requestData)
           .then((r) => console.log(r.status))
           .catch((e) => console.log(e));
       }

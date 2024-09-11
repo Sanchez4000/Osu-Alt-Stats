@@ -1,23 +1,19 @@
 ﻿using Newtonsoft.Json;
 using OsuVueAppApi.CommonServices.Interfaces;
+using OsuVueAppApi.Data;
 using OsuVueAppApi.Exceptions;
+using OsuVueAppApi.Models.Database;
 using OsuVueAppApi.Models.Osu;
 using OsuVueAppApi.OsuApiProviders;
-using OsuVueAppApi.Utilities;
 
 namespace OsuVueAppApi.CommonServices.Implementations
 {
     public class OsuApiService : IOsuApiService
     {
-        private const int CLIENT_ID = 34162;
-        private const string CLIENT_SECRET = "zDsmZ4qb0Mjo9CmLOjjm1MIXmg0e2KzXY3l2z4sh"; //Test secret (not actual) TODO load secret from appsettings
-        private const string GRANT_TYPE = "authorization_code";
-
-        private const string DIRECTORY = "temp";
-        private const string FILE = "auth-backup.txt";
-        private const string FULL_PATH = $"{DIRECTORY}/{FILE}";
-
+        private readonly int _clientId;
+        private readonly string _clientSecret;
         private OsuOAuthData? _oAuthData = null;
+        private readonly ApplicationDbContext _context;
 
         public UsersProvider Users
         {
@@ -30,27 +26,76 @@ namespace OsuVueAppApi.CommonServices.Implementations
             }
         }
 
-        public OsuApiService()
+        public OsuApiService(ApplicationDbContext context, IConfiguration configuration)
         {
-            if (File.Exists(FULL_PATH))
-            {
-                var json = File.ReadAllText(FULL_PATH);
-                _oAuthData = JsonConvert.DeserializeObject<OsuOAuthData>(json);
-                return;
-            }
+            _clientId = configuration.GetValue<int>("ClientId");
+            _clientSecret = configuration.GetValue<string>("ClientSecret");
+            _context = context;
 
-            if (!Directory.Exists(DIRECTORY))
-                Directory.CreateDirectory(DIRECTORY);
+            var token = _context.AuthTokens.FirstOrDefault();
+
+            if (token != null)
+                _oAuthData = new OsuOAuthData(token);
         }
 
         public async Task Authorize(string authorizationCode)
+        {
+            var token = _context.AuthTokens.FirstOrDefault();
+
+            if (token == null)
+            {
+                await DefaultAuthorization(authorizationCode);
+
+                if (_oAuthData == null)
+                    throw new Exception("Не удалось авторизоваться!");
+
+                _context.AuthTokens.Add(new AuthToken(_oAuthData));
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                var timeNow = DateTime.Now;
+                var deltaTime = timeNow - token.AuthTime;
+
+                if (deltaTime.TotalSeconds >= token.ExpiresIn)
+                {
+                    await RefreshToken(token.RefreshToken);
+
+                    if (_oAuthData == null)
+                        throw new Exception("Не удалось авторизоваться!");
+
+                    token.SetFromOsuOAuthData(_oAuthData);
+                    await _context.SaveChangesAsync();
+                }
+                else
+                {
+                    _oAuthData = new OsuOAuthData(token);
+                }
+            }
+        }
+        public async Task<bool> IsAuthorized()
+        {
+            await Task.Delay(100);
+            throw new NotImplementedException();
+        }
+
+        private async Task DefaultAuthorization(string authorizationCode)
+        {
+            const string GRANT_TYPE = "authorization_code";
+            await SetTokenFromOsuApi(
+                $"client_id={_clientId}" +
+                $"&client_secret={_clientSecret}" +
+                $"&code={authorizationCode}" +
+                $"&grant_type={GRANT_TYPE}");
+        }
+        private async Task SetTokenFromOsuApi(string data)
         {
             var client = new HttpClient();
             var msg = new HttpRequestMessage
             {
                 Method = HttpMethod.Post,
                 RequestUri = new Uri("https://osu.ppy.sh/oauth/token"),
-                Content = new StringContent($"client_id={CLIENT_ID}&client_secret={CLIENT_SECRET}&code={authorizationCode}&grant_type={GRANT_TYPE}")
+                Content = new StringContent(data)
             };
             msg.Headers.Add("Accept", "application/json");
             msg.Content.Headers.ContentType.MediaType = "application/x-www-form-urlencoded";
@@ -59,34 +104,16 @@ namespace OsuVueAppApi.CommonServices.Implementations
             var json = await response.Content.ReadAsStringAsync();
 
             _oAuthData = JsonConvert.DeserializeObject<OsuOAuthData>(json);
-
-            if (_oAuthData != null)
-                await BackupToken(json);
         }
-        public async Task<string> GetOAuthToken(string authorizationCode)
+        private async Task RefreshToken(string refreshToken)
         {
-            var client = new HttpClient();
-            var msg = HttpClientHelper.GetOsuApiMessage(
-                "https://osu.ppy.sh/oauth/token",
-                HttpMethod.Post,
-                new StringContent($"client_id={CLIENT_ID}&client_secret={CLIENT_SECRET}&code={authorizationCode}&grant_type={GRANT_TYPE}")
-            );
-
-            var response = await client.SendAsync(msg);
-            return await response.Content.ReadAsStringAsync();
-        }
-        public async Task<bool> IsAuthorized()
-        {
-            await Task.Delay(100);
-            throw new NotImplementedException();
-        }
-
-        private static async Task BackupToken(string token)
-        {
-            if (!File.Exists(FULL_PATH))
-                File.Create(FULL_PATH).Close();
-                
-            await File.WriteAllTextAsync(FULL_PATH, token);
+            const string GRANT_TYPE = "refresh_token";
+            await SetTokenFromOsuApi(
+                $"client_id={_clientId}" +
+                $"&client_secret={_clientSecret}" +
+                $"&grant_type={GRANT_TYPE}" +
+                $"&refresh_token={refreshToken}" +
+                $"&scope=public+identify");
         }
     }
 }

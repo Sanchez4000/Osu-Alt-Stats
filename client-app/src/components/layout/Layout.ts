@@ -8,27 +8,29 @@ import AxiosDecorator from "@/utilities/AxiosDecorator";
   },
 })
 class Layout extends Vue {
-  private readonly clientId = 34162;
   private readonly responseType = "code";
   private readonly osuAuthUrl = "https://osu.ppy.sh/oauth/authorize";
 
+  private clientId = 0;
+
   private mounted(): void {
-    const url = new URL(`${this.osuAuthUrl}`);
+    AxiosDecorator.get("/Authorization/GetClientId").then((response) => {
+      this.clientId = response.data;
+      const url = new URL(`${this.osuAuthUrl}`);
 
-    const params = {
-      client_id: this.clientId,
-      response_type: this.responseType,
-      scope: "public identify",
-    };
+      const params = {
+        client_id: this.clientId,
+        response_type: this.responseType,
+        scope: "public identify",
+      };
 
-    const keys = Object.keys(params);
-    const values = Object.values(params);
+      const keys = Object.keys(params);
+      const values = Object.values(params);
 
-    keys.forEach((key, index) => {
-      url.searchParams.append(keys[index], values[index] as string);
+      keys.forEach((key, index) => {
+        url.searchParams.append(keys[index], values[index] as string);
+      });
     });
-
-    console.log(url);
   }
 
   private getAuthorizeUrl(): string {
