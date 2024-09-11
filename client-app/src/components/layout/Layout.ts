@@ -1,10 +1,12 @@
 import { Component, Vue, toNative } from "vue-facing-decorator";
 import NavBarButton from "@/ui-kit/nav-bar-button/NavBarButton.vue";
 import AxiosDecorator from "@/utilities/AxiosDecorator";
+import TopBar from "@/ui-kit/top-bar/TopBar.vue";
 
 @Component({
   components: {
     NavBarButton,
+    TopBar,
   },
 })
 class Layout extends Vue {

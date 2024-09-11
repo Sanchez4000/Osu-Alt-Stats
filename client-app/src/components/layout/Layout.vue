@@ -9,6 +9,7 @@
         <a :href="getAuthorizeUrl()">Авторизация</a>
       </div>
     </div>
+    <TopBar />
     <div id="content">
       <h1 @click="logUserData()">Получить инфу о себе</h1>
       <slot></slot>
