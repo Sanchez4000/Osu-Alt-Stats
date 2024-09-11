@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using OsuVueAppApi.Models.Database;
 
 namespace OsuVueAppApi.Models.Osu
 {
@@ -12,5 +13,14 @@ namespace OsuVueAppApi.Models.Osu
         public string RefreshToken { get; init; } = string.Empty;
         [JsonProperty("token_type")]
         public string TokenType { get; init; } = string.Empty;
+
+        public OsuOAuthData() { }
+        public OsuOAuthData(AuthToken token)
+        {
+            AccessToken = token.AccessToken;
+            ExpiresIn = token.ExpiresIn;
+            RefreshToken = token.RefreshToken;
+            TokenType = token.TokenType;
+        }
     }
 }
