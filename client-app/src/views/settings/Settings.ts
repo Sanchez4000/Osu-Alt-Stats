@@ -1,3 +1,5 @@
+import SettingsApi from "@/api/SettingsApi";
+import SettingsModel from "@/models/SettingsModel";
 import { Component, Vue, toNative } from "vue-facing-decorator";
 
 @Component
@@ -11,11 +13,23 @@ class Settings extends Vue {
   }
 
   private mounted(): void {
-    //load clientId + clientSecret
+    SettingsApi.loadSettings().then((r) => {
+      if (r.osuClient === null) return;
+
+      this.clientId = r.osuClient.clientId;
+      this.clientSecret = r.osuClient.clientSecret;
+    });
   }
 
   private save() {
-    //saving all fields
+    const data: SettingsModel = {
+      osuClient: {
+        clientId: this.clientId,
+        clientSecret: this.clientSecret,
+      },
+    };
+
+    SettingsApi.saveSettings(data);
   }
 }
 
