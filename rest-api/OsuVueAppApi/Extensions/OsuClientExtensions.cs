@@ -7,7 +7,7 @@ namespace OsuVueAppApi.Extensions
     {
         public static async Task<OsuClient?> GetDefault(this DbSet<OsuClient> source)
         {
-            return await source.Where(x => x.Id == 0).FirstOrDefaultAsync();
+            return await source.Where(x => x.Id == 1).FirstOrDefaultAsync();
         }
     }
 }
