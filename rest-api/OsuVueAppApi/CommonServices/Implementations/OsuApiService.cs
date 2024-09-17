@@ -2,6 +2,7 @@
 using OsuVueAppApi.CommonServices.Interfaces;
 using OsuVueAppApi.Data;
 using OsuVueAppApi.Exceptions;
+using OsuVueAppApi.Extensions;
 using OsuVueAppApi.Models.Database;
 using OsuVueAppApi.Models.Osu;
 using OsuVueAppApi.OsuApiProviders;
@@ -28,9 +29,14 @@ namespace OsuVueAppApi.CommonServices.Implementations
 
         public OsuApiService(ApplicationDbContext context, IConfiguration configuration)
         {
-            _clientId = configuration.GetValue<int>("ClientId");
-            _clientSecret = configuration.GetValue<string>("ClientSecret");
             _context = context;
+
+            var clientLoadTask = _context.OsuClients.GetDefault();
+            clientLoadTask.Wait();
+
+            var osuClient = clientLoadTask.Result ?? throw new NotAuthorizedException();
+            _clientId = osuClient.ClientId;
+            _clientSecret = osuClient.ClientSecret;
 
             var token = _context.AuthTokens.FirstOrDefault();
 

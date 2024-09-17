@@ -6,6 +6,7 @@ namespace OsuVueAppApi.Data
     public class ApplicationDbContext : DbContext
     {
         public DbSet<AuthToken> AuthTokens { get; set; }
+        public DbSet<OsuClient> OsuClients { get; set; }
 
         public string DbPath { get; }
 
