@@ -1,8 +1,8 @@
 import SettingsApi from "@/api/SettingsApi";
-import SettingsModel from "@/models/SettingsModel";
 import Category from "../../ui/category/Category.vue";
 import Field from "../../ui/field/Field.vue";
 import { Component, Vue, toNative } from "vue-facing-decorator";
+import OsuClient from "@/models/OsuClient";
 
 @Component({
   components: {
@@ -20,23 +20,28 @@ class OsuClientSettings extends Vue {
   }
 
   private mounted(): void {
-    SettingsApi.loadSettings().then((r) => {
-      if (r.osuClient === null) return;
+    SettingsApi.getOsuClientData()
+      .then((client) => {
+        if (client === null) return;
 
-      this.clientId = r.osuClient.clientId;
-      this.clientSecret = r.osuClient.clientSecret;
-    });
+        this.clientId = client.clientId;
+        this.clientSecret = client.clientSecret;
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   }
 
   private save() {
-    const data: SettingsModel = {
-      osuClient: {
-        clientId: this.clientId,
-        clientSecret: this.clientSecret,
-      },
+    const data: OsuClient = {
+      clientId: this.clientId,
+      clientSecret: this.clientSecret,
     };
 
-    SettingsApi.saveSettings(data);
+    SettingsApi.setOsuClientData(data).then((client) => {
+      this.clientId = client.clientId;
+      this.clientSecret = client.clientSecret;
+    });
   }
 }
 
