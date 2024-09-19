@@ -24,6 +24,9 @@
 #content {
     width: 100%;
     min-height: 100%;
-    padding-top: 20px;
     margin: 0;
+}
+
+#content div {
+    padding: 20px;
 }

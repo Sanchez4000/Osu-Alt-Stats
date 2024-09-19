@@ -10,7 +10,9 @@
       </div>
     </div>
     <div id="content">
-      <slot></slot>
+      <div>
+        <slot></slot>
+      </div>
     </div>
   </div>
 </template>
