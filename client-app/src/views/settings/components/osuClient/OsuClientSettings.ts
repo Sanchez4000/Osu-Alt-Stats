@@ -1,8 +1,15 @@
 import SettingsApi from "@/api/SettingsApi";
 import SettingsModel from "@/models/SettingsModel";
+import Category from "../../ui/category/Category.vue";
+import Field from "../../ui/field/Field.vue";
 import { Component, Vue, toNative } from "vue-facing-decorator";
 
-@Component
+@Component({
+  components: {
+    Category,
+    Field,
+  },
+})
 class OsuClientSettings extends Vue {
   private clientId = 0;
   private clientSecret = "";

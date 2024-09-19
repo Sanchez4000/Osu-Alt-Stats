@@ -1,0 +1,22 @@
+.category {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.category-name {
+    display: flex;
+    align-items: flex-start;
+    border-bottom: 1px solid rgb(145, 145, 145);
+    width: 100%;
+    margin: 0;
+    margin-bottom: 10px;
+}
+
+.category-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+}

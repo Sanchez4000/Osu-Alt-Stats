@@ -1,0 +1,20 @@
+.field {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    border-bottom: 1px solid rgb(200, 200, 200);
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+}
+
+.name {
+    display: flex;
+    justify-content: flex-start;
+    width: 25%;
+}
+
+.edit-tool {
+    display: flex;
+    justify-content: flex-end;
+    width: 75%;
+}
