@@ -1,4 +1,5 @@
-﻿using OsuVueAppApi.Models.Osu;
+﻿using Newtonsoft.Json;
+using OsuVueAppApi.Models.Osu;
 
 namespace OsuVueAppApi.OsuApiProviders
 {
@@ -6,8 +7,13 @@ namespace OsuVueAppApi.OsuApiProviders
     {
         public async Task<string> GetUser(int id, string mode = "osu")
         {
-            var json = await SendRequest(BuildUrl($"/users/{id}/{mode}"), HttpMethod.Get);
+            var json = await SendRequest($"/users/{id}/{mode}", HttpMethod.Get);
             return json;
+        }
+        public async Task<UserExtended> GetMe(string mode = "osu")
+        {
+            var json = await SendRequest($"/me/{mode}", HttpMethod.Get);
+            return JsonConvert.DeserializeObject<UserExtended>(json);
         }
 
         protected override HttpRequestMessage GetMessage(string url, HttpMethod method, HttpContent? content)

@@ -1,15 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OsuVueAppApi.CommonServices.Interfaces;
+using OsuVueAppApi.Data;
+using OsuVueAppApi.Extensions;
+using OsuVueAppApi.Models.Custom;
+using OsuVueAppApi.Models.Osu;
 using OsuVueAppApi.Requests;
 
 namespace OsuVueAppApi.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class AuthorizationController(IConfiguration configuration, IOsuApiService osuApi) : ControllerBase
+    public class AuthorizationController(ApplicationDbContext context, IOsuApiService osuApi) : ControllerBase
     {
         private readonly IOsuApiService _osuApi = osuApi;
-        private readonly int _clientId = configuration.GetValue<int>("ClientId");
+        private readonly ApplicationDbContext _context = context;
 
         [HttpPost]
         public async Task Authorize([FromBody] AuthorizeRequest request)
@@ -17,9 +21,25 @@ namespace OsuVueAppApi.Controllers
             await _osuApi.Authorize(request.AuthorizationCode);
         }
         [HttpGet]
-        public async Task<int> GetClientId()
+        public async Task<UserbarData> GetUserbarData()
         {
-            return _clientId;
+            throw new NotImplementedException();
+        }
+        [HttpGet]
+        public async Task<UserExtended> GetMe()
+        {
+            return await _osuApi.Users.GetMe();
+        }
+        [HttpGet]
+        public async Task<string?> GetAuthLink()
+        {
+            var client = await _context.OsuClients.GetDefault();
+
+            if (client == null)
+                return null;
+
+            const string BASE_URL = "https://osu.ppy.sh/oauth/authorize";
+            return $"{BASE_URL}?client_id={client.ClientId}&response_type=code&scope=public+identify";
         }
     }
 }

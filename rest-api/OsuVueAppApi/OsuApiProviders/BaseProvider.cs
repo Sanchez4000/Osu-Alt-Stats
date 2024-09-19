@@ -18,11 +18,11 @@ namespace OsuVueAppApi.OsuApiProviders
             else
                 return $"{_baseUrl}{path}";
         }
-        protected async Task<string> SendRequest(string url, HttpMethod method, HttpContent? content = null)
+        protected async Task<string> SendRequest(string endpoint, HttpMethod method, HttpContent? content = null)
         {
             var client = new HttpClient();
+            var url = BuildUrl(endpoint);
             var msg = GetMessage(url, method, content);
-            var json = JsonConvert.SerializeObject(_oAuthData);
             msg.Headers.Add("Authorization", $"Bearer {_oAuthData.AccessToken}");
             var response = await client.SendAsync(msg);
             return await response.Content.ReadAsStringAsync();

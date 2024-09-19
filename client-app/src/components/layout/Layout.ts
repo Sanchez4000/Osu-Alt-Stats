@@ -1,5 +1,6 @@
 import { Component, Vue, toNative } from "vue-facing-decorator";
 import NavBarButton from "@/ui-kit/nav-bar-button/NavBarButton.vue";
+import AuthorizationApi from "@/api/AuthorizationApi";
 
 @Component({
   components: {
@@ -7,13 +8,14 @@ import NavBarButton from "@/ui-kit/nav-bar-button/NavBarButton.vue";
   },
 })
 class Layout extends Vue {
-  private readonly responseType = "code";
-  private readonly osuAuthUrl = "https://osu.ppy.sh/oauth/authorize";
+  private authLink = "";
 
-  private clientId = 0;
+  private mounted(): void {
+    AuthorizationApi.getAuthLink().then((r) => {
+      if (r === null) return;
 
-  private getAuthorizeUrl(): string {
-    return `${this.osuAuthUrl}?client_id=${this.clientId}&response_type=${this.responseType}&scope=public+identify`;
+      this.authLink = r;
+    });
   }
 }
 

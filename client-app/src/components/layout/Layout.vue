@@ -6,7 +6,7 @@
         <NavBarButton :link="'/about'" :label="'About'" />
       </div>
       <div id="user-block">
-        <a :href="getAuthorizeUrl()">Авторизация</a>
+        <a :href="authLink">Авторизация</a>
       </div>
     </div>
     <div id="content">
