@@ -2,4 +2,4 @@
   <div></div>
 </template>
 <script src="./AuthCallback.ts" />
-<style src="./AuthCallback.css" />
+<style src="./AuthCallback.css" scoped />

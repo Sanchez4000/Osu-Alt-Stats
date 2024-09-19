@@ -4,4 +4,4 @@
   </div>
 </template>
 <script src="./Settings.ts" />
-<style src="./Settings.css" />
+<style src="./Settings.css" scoped />
