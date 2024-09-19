@@ -1,12 +1,16 @@
-import SettingsModel from "@/models/SettingsModel";
+import OsuClient from "@/models/OsuClient";
 import AxiosDecorator from "@/utilities/AxiosDecorator";
 
 export default class SettingsApi {
-  public static async loadSettings(): Promise<SettingsModel> {
-    const response = await AxiosDecorator.post("/Settings/Load");
+  public static async getOsuClientData(): Promise<OsuClient | null> {
+    const response = await AxiosDecorator.post("/Settings/GetOsuClientData");
     return response.data;
   }
-  public static async saveSettings(data: SettingsModel): Promise<void> {
-    await AxiosDecorator.post("/Settings/Save", data);
+  public static async setOsuClientData(data: OsuClient): Promise<OsuClient> {
+    const response = await AxiosDecorator.post(
+      "/Settings/SetOsuClientData",
+      data
+    );
+    return response.data;
   }
 }

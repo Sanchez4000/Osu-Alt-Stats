@@ -12,37 +12,32 @@ namespace OsuVueAppApi.Controllers
         private readonly ApplicationDbContext _context = context;
 
         [HttpPost]
-        public async Task<Settings> Load()
+        public async Task<OsuClient?> GetOsuClientData()
         {
-            return new Settings
-            {
-                OsuClient = await _context.OsuClients.GetDefault(),
-            };
+            return await _context.OsuClients.GetDefault();
         }
         [HttpPost]
-        public async Task Save([FromBody] Settings settings)
+        public async Task<OsuClient> SetOsuClientData([FromBody] OsuClient client)
         {
-            if (settings.OsuClient != null)
+            var oldClient = await _context.OsuClients.GetDefault();
+
+            if (oldClient != null)
             {
-                var client = await _context.OsuClients.GetDefault();
-                
-                if (client == null)
+                oldClient.ClientId = client.ClientId;
+                oldClient.ClientSecret = client.ClientSecret;
+            }
+            else
+            {
+                _context.OsuClients.Add(new OsuClient
                 {
-                    _context.OsuClients.Add(new OsuClient
-                    {
-                        Id = 1,
-                        ClientId = settings.OsuClient.ClientId,
-                        ClientSecret = settings.OsuClient.ClientSecret
-                    });
-                }
-                else
-                {
-                    client.ClientId = settings.OsuClient.ClientId;
-                    client.ClientSecret = settings.OsuClient.ClientSecret;
-                }
+                    Id = 1,
+                    ClientId = client.ClientId,
+                    ClientSecret = client.ClientSecret,
+                });
             }
 
             await _context.SaveChangesAsync();
+            return await _context.OsuClients.GetDefault();
         }
     }
 }
