@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="layout">
     <div id="nav-bar">
       <div id="nav-bar-buttons">
         <NavBarButton :link="'/'" :label="'Home'" />
@@ -10,7 +10,6 @@
       </div>
     </div>
     <div id="content">
-      <h1 @click="logUserData()">Получить инфу о себе</h1>
       <slot></slot>
     </div>
   </div>
