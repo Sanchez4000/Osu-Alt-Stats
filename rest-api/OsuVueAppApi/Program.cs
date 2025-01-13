@@ -1,6 +1,7 @@
 using OsuVueAppApi.CommonServices.Implementations;
 using OsuVueAppApi.CommonServices.Interfaces;
 using OsuVueAppApi.Data;
+using OsuVueAppApi.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,7 +40,7 @@ app.UseHttpsRedirection();
 app.UseCors(MyAllowSpecificOrigins); //
 
 app.UseAuthorization();
-
+app.UseMiddleware<CommonMiddleware>();
 app.MapControllers();
 
 app.Run();
