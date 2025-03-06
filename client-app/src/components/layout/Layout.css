@@ -15,12 +15,6 @@
     background-color: blue;
 }
 
-#user-block {
-    width: 200px;
-    height: 100%;
-    background-color: orange;
-}
-
 #content {
     width: 100%;
     min-height: 100%;

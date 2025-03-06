@@ -5,9 +5,7 @@
         <NavBarButton :link="'/'" :label="'Home'" />
         <NavBarButton :link="'/about'" :label="'About'" />
       </div>
-      <div id="user-block">
-        <a :href="authLink">Авторизация</a>
-      </div>
+      <ProfileBlock />
     </div>
     <div id="content">
       <div>
