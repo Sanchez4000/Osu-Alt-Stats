@@ -51,7 +51,9 @@
 .dropdown li a {
     text-decoration: none;
     color: #BB8699;
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     height: 100%;
 }
