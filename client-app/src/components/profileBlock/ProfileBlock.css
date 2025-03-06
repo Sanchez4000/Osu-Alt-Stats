@@ -1,0 +1,73 @@
+.profile-block {
+    width: 200px;
+    height: 100%;
+    background-color: #2A2226;
+    /* Исходный цвет фона */
+    color: #BB8699;
+    /* Исходный цвет текста */
+    position: relative;
+}
+
+.current-profile-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #2A2226;
+    z-index: 10;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.profile-block:hover .dropdown,
+.dropdown:hover {
+    display: block;
+}
+
+.profile-block:hover {
+    background-color: #752142;
+    /* Цвет фона при наведении */
+    color: #FFFFFF;
+    /* Цвет текста при наведении */
+}
+
+.dropdown li {
+    text-align: center;
+    border-bottom: 1px solid #BB8699;
+    /* Линия-разделитель для пунктов выпадающего списка */
+    padding: 10px 0;
+}
+
+.dropdown li:last-child {
+    border-bottom: none;
+}
+
+.dropdown li a {
+    text-decoration: none;
+    color: #BB8699;
+    /* Цвет текста ссылок */
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.dropdown li:hover {
+    background-color: #BB8699;
+    /* Цвет фона при наведении */
+}
+
+.dropdown li:hover a {
+    color: #2A2226;
+    /* Цвет текста при наведении */
+}
