@@ -1,7 +1,7 @@
+using Data;
 using Domain;
 using OsuVueAppApi.CommonServices.Implementations;
 using OsuVueAppApi.CommonServices.Interfaces;
-using OsuVueAppApi.Data;
 using OsuVueAppApi.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,7 +17,7 @@ builder.Services.AddMediatR(config => config.RegisterServicesFromAssemblies(
     typeof(Program).Assembly,
     typeof(DependencyInjection).Assembly
 ));
-builder.Services.AddScoped(typeof(IOsuApiService), typeof(OsuApiService));
+//builder.Services.AddScoped(typeof(IOsuApiService), typeof(OsuApiService));
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 builder.Services.AddCors(options =>

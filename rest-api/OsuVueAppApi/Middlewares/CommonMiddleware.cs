@@ -19,6 +19,7 @@ namespace OsuVueAppApi.Middlewares
             {
                 await next.Invoke(context);
                 _response.Data = await GetDataAsync(newBody);
+                context.Response.StatusCode = StatusCodes.Status200OK;
             }
             catch (Exception ex)
             {
@@ -41,6 +42,9 @@ namespace OsuVueAppApi.Middlewares
         {
             responseBody.Seek(0, SeekOrigin.Begin);
             var responseBodyText = await new StreamReader(responseBody).ReadToEndAsync();
+
+            if (string.IsNullOrEmpty(responseBodyText))
+                return null;
 
             return JsonSerializer.Deserialize<object>(responseBodyText);
         }

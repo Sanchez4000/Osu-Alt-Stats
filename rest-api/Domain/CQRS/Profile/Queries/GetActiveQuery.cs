@@ -1,14 +1,20 @@
-﻿using MediatR;
+﻿using Common.DbModels;
+using Data;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Domain.CQRS.Profile.Queries
 {
-    public class GetActiveQueryHandler : IRequestHandler<GetActiveQuery, string>
+    public class GetActiveQueryHandler(ApplicationDbContext context) : IRequestHandler<GetActiveQuery, ProfileModel>
     {
-        public async Task<string> Handle(GetActiveQuery request, CancellationToken cancellationToken)
+        public async Task<ProfileModel?> Handle(GetActiveQuery request, CancellationToken cancellationToken)
         {
-            return "ActiveProfile";
+            var activeProfile = await context.Profile
+                .FirstOrDefaultAsync(x => x.IsActive, cancellationToken);
+
+            return activeProfile;
         }
     }
 
-    public class GetActiveQuery : IRequest<string>;
+    public class GetActiveQuery : IRequest<ProfileModel>;
 }
