@@ -1,3 +1,4 @@
+using Domain;
 using OsuVueAppApi.CommonServices.Implementations;
 using OsuVueAppApi.CommonServices.Interfaces;
 using OsuVueAppApi.Data;
@@ -12,6 +13,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDbContext>();
+builder.Services.AddMediatR(config => config.RegisterServicesFromAssemblies(
+    typeof(Program).Assembly,
+    typeof(DependencyInjection).Assembly
+));
 builder.Services.AddScoped(typeof(IOsuApiService), typeof(OsuApiService));
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
@@ -38,6 +43,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseCors(MyAllowSpecificOrigins); //
+
 
 app.UseAuthorization();
 app.UseMiddleware<CommonMiddleware>();

@@ -42,7 +42,7 @@ namespace OsuVueAppApi.Middlewares
             responseBody.Seek(0, SeekOrigin.Begin);
             var responseBodyText = await new StreamReader(responseBody).ReadToEndAsync();
 
-            return JsonSerializer.Deserialize<TestModel>(responseBodyText);
+            return JsonSerializer.Deserialize<object>(responseBodyText);
         }
         private void UpdateBody(MemoryStream responseBody)
         {

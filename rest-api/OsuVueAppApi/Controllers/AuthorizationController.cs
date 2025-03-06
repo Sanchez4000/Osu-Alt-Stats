@@ -21,7 +21,7 @@ namespace OsuVueAppApi.Controllers
             await _osuApi.Authorize(request.AuthorizationCode);
         }
         [HttpGet]
-        public async Task<UserbarData> GetUserbarData()
+        public async Task GetUserbarData()
         {
             throw new NotImplementedException();
         }
