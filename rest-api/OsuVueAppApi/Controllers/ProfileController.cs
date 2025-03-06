@@ -1,7 +1,9 @@
 ﻿using Common.ViewModels;
+using Domain.CQRS.Profile.Commands;
 using Domain.CQRS.Profile.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using OsuVueAppApi.Requests;
 
 namespace OsuVueAppApi.Controllers
 {
@@ -14,6 +16,13 @@ namespace OsuVueAppApi.Controllers
         {
             var profile = await mediator.Send(new GetActiveQuery());
             return profile;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] CreateProfileRequest request)
+        {
+            await mediator.Send(new CreateProfileCommand() { Name = request.Name });
+            return Created();
         }
     }
 }

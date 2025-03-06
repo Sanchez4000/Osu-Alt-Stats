@@ -19,7 +19,9 @@ namespace OsuVueAppApi.Middlewares
             {
                 await next.Invoke(context);
                 _response.Data = await GetDataAsync(newBody);
-                context.Response.StatusCode = StatusCodes.Status200OK;
+
+                if (context.Response.StatusCode < StatusCodes.Status300MultipleChoices)
+                    context.Response.StatusCode = StatusCodes.Status200OK;
             }
             catch (Exception ex)
             {
