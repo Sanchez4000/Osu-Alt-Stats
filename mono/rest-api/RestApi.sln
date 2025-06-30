@@ -5,6 +5,10 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OsuWebApp.RestApi.Api", "OsuWebApp.RestApi.Api\OsuWebApp.RestApi.Api.csproj", "{2CDF2CAC-5203-4ED5-94C2-FBA90527A09F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OsuWebApp.RestApi.Data", "OsuWebApp.RestApi.Data\OsuWebApp.RestApi.Data.csproj", "{6B962601-0615-4696-8329-0C800E08EDF1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OsuWebApp.RestApi.Domain", "OsuWebApp.RestApi.Domain\OsuWebApp.RestApi.Domain.csproj", "{D32BD856-CE66-4B1A-9854-A9A3EAC82F45}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,8 +19,19 @@ Global
 		{2CDF2CAC-5203-4ED5-94C2-FBA90527A09F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2CDF2CAC-5203-4ED5-94C2-FBA90527A09F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2CDF2CAC-5203-4ED5-94C2-FBA90527A09F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B962601-0615-4696-8329-0C800E08EDF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B962601-0615-4696-8329-0C800E08EDF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B962601-0615-4696-8329-0C800E08EDF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B962601-0615-4696-8329-0C800E08EDF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D32BD856-CE66-4B1A-9854-A9A3EAC82F45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D32BD856-CE66-4B1A-9854-A9A3EAC82F45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D32BD856-CE66-4B1A-9854-A9A3EAC82F45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D32BD856-CE66-4B1A-9854-A9A3EAC82F45}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9FBCBDF9-E97E-4501-AD21-D5A29E5F87A8}
 	EndGlobalSection
 EndGlobal
