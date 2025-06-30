@@ -1,0 +1,6 @@
+@OsuWebApp.RestApi.Api_HostAddress = http://localhost:5055
+
+GET {{OsuWebApp.RestApi.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
